@@ -91,15 +91,15 @@ app.jinja_env.globals['message'] = get_message
 @app.route('/index')
 @app.route('/')
 def index():
-    return render_template("LandingPage.html")
+    return render_template("./templates/LandingPage.html")
 
 @app.route('/about')
 def about():
-    return render_template("about.html")
+    return render_template("./templates/about.html")
 
 @app.route('/privacy')
 def privacy():
-    return render_template("privacy.html")
+    return render_template("./templates/privacy.html")
 
 # Can be called by a AJAX request to return the job data
 # For applications pass 0 to return all jobs
