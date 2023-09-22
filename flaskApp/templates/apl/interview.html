@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Cieve</title>
+        <link rel="icon" href="../static/cieve.ico">
+		<link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.0/css/bulma.min.css">
+		<script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+		<script async type="text/javascript" src="../static/js/bulma.js"></script>
+        <!-- <link rel="stylesheet" href="styles/debug.css"> -->
+	</head>
+	<body>
+    <nav class="navbar has-shadow">
+      <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/cli">
+                <img src="../../static/CieveNavBar.png" alt="Cieve: an automated applicant solution">
+            </a>
+            <div class="navbar-burger burger" data-target="navMenuColorprimary-example">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <div id="navMenuColorprimary-example" class="navbar-menu">
+
+            <div class="navbar-start">
+              <a class="navbar-item" href="/cli">
+                <strong>Home</strong>
+              </a>
+
+              <a class="navbar-item" href="/privacy">
+                Privacy
+              </a>
+            </div>
+
+            <div class="navbar-end">
+
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link" href="#">
+                        {{name()}}
+                    </a>
+                    <div class="navbar-dropdown">
+
+                        <a class="navbar-item is-leveled " href="/logout">
+                            <span class="icon ">
+                                    <i class="fa fa-sign-out-alt"></i>
+                                </span>
+                            Sign Out
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </nav>
+
+      <div class="container">
+      <section class="section">
+
+        <div class="columns ">
+            <div class="column is-4-tablet is-3-desktop is-2-widescreen">
+
+                <aside class="menu ">
+                    <p class="menu-label ">
+                        General
+                    </p>
+                    <ul class="menu-list">
+                        <li>
+                            <a href="/apl"><span class="icon ">
+                                    <i class="fa fa-tachometer-alt"></i>
+                                </span>Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="/apl/newapplication"><span class="icon ">
+                                    <i class="fas fa-user-md"></i>
+                                </span>Apply Now</a>
+                        </li>
+                        <li>
+                            <a href="/apl/jobsearch">
+                                <span class="icon">
+                                    <i class="fa fa-search"></i>
+                                </span>
+                                Job Search
+                            </a>
+                        </li>
+                        <li>
+                            <a class="is-active" href="">
+                                <span class="icon">
+                                    <i class="fa fa-book"></i>
+                                </span>
+                                Applications
+                            </a>
+                        </li>
+                    </ul>
+
+                </aside>
+
+            </div>
+            <div class="column">
+		<h1 class="title"> Pick your interview Time</h1>
+			<form action="/apl/bookingSet" method="post">
+                    <input name="_csrf_token" id="_csrf_token" type=hidden value="{{ csrf_token() }}">
+
+        <div class="field">
+          <div class="control">
+            <div class="select is-fullwidth">
+
+
+                    <input type="hidden" name="vacancyId" value = "{{jobID}}">
+                    <input type="hidden" name="applicantId" value="{{applicantID}}">
+                    <input type="hidden" name="stepNo" value="{{stepNo}}">
+                    <input type="hidden" name="stageId" value="{{stageId}}">
+        <select name="interviewavailability">
+
+          {% for date in slots%}
+            <option>{{date[1]}}</option>
+          {%endfor%}
+        </select>
+              </div>
+        </div>
+      </div>
+      <div class="field">
+          <div class="control">
+              <div class="box has-text-centered is-shadowless">
+
+                  <button class="button is-success is-large">
+                      Submit
+                  </button>
+              </div>
+          </div>
+      </div>
+      </form>
+			</div>
+      </div>
+		</section>
+    </div>
+	</body>
+</html>

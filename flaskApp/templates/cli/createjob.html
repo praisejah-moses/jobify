@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <link rel="stylesheet" href="../../static/main.css" />
+    <script src="../../static/js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../../static/js/bulma-slider.min.js"></script>
+
+    <link rel="stylesheet" href="../../static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="../../static/css/chosen.css">
+    <script async type="text/javascript" src="../static/js/bulma.js"></script>
+
+<style>
+  .chosen-container-multi .chosen-choices{
+
+    border-radius: 5px;
+    padding-top: 8px;
+    border: 1px solid #dbdbdb;
+    -webkit-appearance: none;
+    box-shadow: none;
+    background-color: white;
+    background-image: none;
+  }
+</style>
+
+<link rel="icon" href="../static/cieve.ico">
+
+  </head>
+  <body>
+
+    <nav class="navbar has-shadow">
+      <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/cli">
+                <img src="../../static/CieveNavBar.png" alt="Cieve: an automated applicant solution">
+            </a>
+            <div class="navbar-burger burger" data-target="navMenuColorprimary-example">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <div id="navMenuColorprimary-example" class="navbar-menu">
+
+            <div class="navbar-start">
+              <a class="navbar-item" href="/cli">
+                <strong>Home</strong>
+              </a>
+
+
+              <a class="navbar-item" href="/privacy">
+                Privacy
+              </a>
+            </div>
+
+            <div class="navbar-end">
+
+                        <a class="navbar-item is-leveled " href="/logout">
+                            <span class="icon ">
+                                    <i class="fa fa-sign-out-alt"></i>
+                                </span>
+                            Sign Out
+                        </a>
+
+            </div>
+        </div>
+        </div>
+    </nav>
+
+      <div class="container">
+      <section class="section">
+
+        <div class="columns ">
+            <div class="column is-4-tablet is-3-desktop is-2-widescreen">
+
+                <aside class="menu ">
+                    <p class="menu-label ">
+                        General
+                    </p>
+                    <ul class="menu-list">
+                        <li>
+                            <a href="/cli"><span class="icon ">
+                                    <i class="fa fa-tachometer-alt"></i>
+                                </span>Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="/cli/jobs">
+                                <span class="icon">
+                                    <i class="fa fa-search"></i>
+                                </span>
+                                Your Jobs
+                            </a>
+                        </li>
+                        <li>
+                            <a class="is-active" href="">
+                                <span class="icon">
+                                    <i class="fa fa-plus"></i>
+                                </span>
+                                New Job
+                            </a>
+                        </li>
+                    </ul>
+                </aside>
+
+            </div>
+            <div class="column ">
+
+                <h3 class="title is-3">Create Your Job</h3>
+
+                <form id="create-job" action="{{url_for('client.newJob')}}" method = "POST">
+                    <input name=_csrf_token type=hidden value="{{ csrf_token() }}">
+                    <div class="field">
+                        <label class="label">Job Title</label>
+                        <div class="control">
+                            <input class="input" type="text" name="job_title" placeholder="Enter the Job Title">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="columns">
+                            <div class="column">
+                                <label class="label">Division</label>
+                                <div class="control">
+                                    <div class="select is-fullwidth">
+                                        <select name="division">
+                                            {%for division in divisions%}
+                                                <option>{{ division }}</option>
+                                            {%endfor%}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <label class="label">Role</label>
+                                <div class="control">
+                                    <div class="select is-fullwidth">
+                                        <select name="roles">
+                                            {%for role in roles%}
+                                                <option>{{ role }}</option>
+                                            {%endfor%}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column">
+                            <div class="field">
+                              <label class="label">Location</label>
+                                <div class="control has-icons-left">
+                                  <span class="select is-fullwidth">
+                                    <select class="select is-fullwidth" name="country">
+                                        {%for location in locations%}
+                                            <option>{{ location }}</option>
+                                        {%endfor%}
+                                    </select>
+                                  </span>
+                                  <span class="icon is-small is-left">
+                                    <i class="fas fa-globe"></i>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Job Description</label>
+                        <div class="control">
+                            <textarea class="textarea" placeholder="Job Description" name="job_desc"></textarea>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Number of Vacancies</label>
+                        <div class="control">
+                            <input class="input" type="number" name="numVacancies" placeholder="Number of Vacancies">
+                            <!-- <input class="input" type="number" name="numberovacancies" placeholder="#"> -->
+                        </div>
+                    </div>
+                    <div class="field is-horizontal is-multiline">
+                        <div class="field-label is-normal">
+                            <label class="label">Stages</label>
+                        </div>
+                        <div class="field-body" id="stages-fb">
+                            <div class="field has-addons">
+                                <div class="control is-expanded">
+                                    <div class="input" type="text" name="Stage_Description" readonly="True">Onboarding Stage</div>
+                                </div>
+                            </div>
+                          </div>
+                            <div class="field is-grouped">
+                                <p class="control">
+                                    <a class="button is-primary" id="add-stage">
+    								      Add Stage
+    								    </a>
+                                </p>
+                                <p class="control">
+                                    <a class="button is-light" id="delete-stage">
+    								      Delete Stage
+    								    </a>
+                                </p>
+                            </div>
+                    </div>
+                    <div class="columns">
+                      <div class="column is-nine-tenths">
+                      <div class="field">
+                        <label class="label">Start Date</label>
+                        <div class="control">
+
+                    <input class="input" type="date" name = "start_date">
+                  </div>
+                  </div>
+                </div>
+                  <div class="field">
+
+                    <div class="column">
+                    <label class="label">ASAP?</label>
+                    <div class="control">
+                    <input class="checkbox is-large" type="checkbox" name="asap" checked>
+                    </div>
+                  </div>
+                  </div>
+                  </div>
+                  <div class="columns">
+                    <div class="column">
+                      <div class="field">
+                  <label class="label">Preferred Degrees</label>
+                  <div class="control">
+
+                    <div class="select is-fullwidth">
+                  <select  class="chosen-select" multiple="" name="preferred_degrees">
+                      <option>University of Warwick</option>
+                      <option>University of Leicester</option>
+                      <option>University of Manchester</option>
+                      <option>University of Bristol</option>
+                      <option>University of Cambridge</option>
+                      <option>University of Leeds</option>
+                      <option>University of Birmingham</option>
+                      <option>University of Nottingham</option>
+                      <option value="London School of Economics and Political Science (LSE)">London School of Economics (LSE)</option>
+                      <option value="University College London (UCL)">University College London (UCL)</option>
+                      <option value="University of Oxford">University of Oxford</option>
+                      <option value="University of Bath">University of Bath</option>
+                  </select>
+                              </div>
+                  </div>
+                </div>
+                </div>
+                  <div class="column">
+                    <div class="field">
+
+                    <label class="label">Minimum Degree Level</label>
+                    <div class="control">
+                      <div class="select is-fullwidth">
+                    <select  name="min_degree_level">
+                        <option>1:1</option>
+                        <option>2:1</option>
+                        <option>2:2</option>
+                    </select>
+                  </div>
+                  </div>
+                  </div>
+                  </div>
+                  </div>
+                    <div class="field" id="langrow">
+                            <div class="columns">
+                                <div class="column">
+                                    <label class="label">Languages</label>
+                                    <div class="control">
+                                        <div class="select is-fullwidth">
+                                            <select name="lang">
+                                                <option>Python</option>
+                                                <option>Java</option>
+                                                <option>Haskell</option>
+                                                <option>C</option>
+                                                <option>HTML</option>
+                                                <option>CSS</option>
+                                                <option>javascript</option>
+                                                <option>PHP</option>
+                                                <option>C++</option>
+                                                <option>c#</option>
+                                                <option>Ruby</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column">
+                                    <label class="label">Proficiency</label>
+                                    <div class="control">
+                                      <input name="langVal" id="sliderWithValue" class="slider has-output is-fullwidth is-circle" min="1" max="10" value="1" step="1" type="range">
+                                      <output for="sliderWithValue">1</output>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field is-grouped ">
+                            <p class="control">
+                                <a class="button is-primary" id="add-language">
+                                        Add Language
+                                    </a>
+                            </p>
+                            <p class="control">
+                                <a class="button is-light" id="delete-language">
+                                        Delete Language
+                                    </a>
+                            </p>
+                        </div>
+
+                    <div class="field" id="skillrow">
+                        <div class="columns">
+                            <div class="column">
+                                <label class="label">Skill</label>
+                                <div class="control">
+                                    <div class="select is-fullwidth">
+                                        <select name="skill">
+                                                <option>Powerpoint</option>
+                                                <option>Git</option>
+                                                <option>Presentation</option>
+                                                <option>Team Work</option>
+                                                <option>Project Management</option>
+                                                <option>Problem Solving</option>
+                                                <option>Customer service</option>
+                                                <option>Numeracy skills</option>
+                                                <option> Teamwork</option>
+                                                <option>Organisation and time management</option>
+                                                <option>Leadership and team management</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <label class="label">Proficiency</label>
+                                <div class="control">
+                                  <input name="skillVal" id="sliderWithValue" class="slider has-output is-fullwidth is-circle" min="1" max="10" value="1" step="1" type="range">
+                                  <output for="sliderWithValue">1</output>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-grouped ">
+                        <p class="control">
+                            <a class="button is-primary" id="add-skill">
+    								Add Skill
+    							</a>
+                        </p>
+                        <p class="control">
+                            <a class="button is-light" id="delete-skill">
+    								Delete Skill
+    							</a>
+                        </p>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <div class="box has-text-centered is-shadowless">
+
+                                <button class="button is-success is-large">
+                                    Submit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+          </div>
+
+      </section>
+
+    </div>
+
+
+    </div>
+</section>
+<script src="../../static/js/chosen.jquery.js"></script>
+<script>
+$(document).ready(function(){
+$(".chosen-select").chosen();
+});
+</script>
+<script type="text/javascript">
+
+$(document).ready(function() {
+    var stage_counter = 1;
+    var counter2 = 1;
+    var counter3 = 1;
+    $('#add-stage').click(function(e) {
+        $('#stages-fb').append(`<div class="field" id="st` + stage_counter + `">
+          <div class="control">
+              <div class="select is-fullwidth">
+                  <select name="Stage_Description">
+                      {%for key, value in stages.items()%}
+                      <option value={{key}}>{{value}}</option>
+                      {%endfor%}
+                  </select>
+              </div>
+          </div>`
+        );
+        stage_counter++;
+
+    });
+
+    $('body').on('click', '#delete-stage', function(e) {
+        e.preventDefault();
+        $('#st' + (stage_counter - 1)).remove();
+        stage_counter--;
+
+    });
+
+
+    $('body').on('click', '#add-skill', function(e) {
+        $('#skillrow').append(`		<div class="columns" id="scol` + counter2 + `">
+      <div class="column">
+        <div class="control">
+          <div class="select is-fullwidth">
+            <select name="skill">
+            <option>Powerpoint</option>
+            <option>Git</option>
+            <option>Presentation</option>
+            <option>Team Work</option>
+            <option>Project Management</option>
+            <option>Problem Solving</option>
+            <option>Customer service</option>
+            <option>Numeracy skills</option>
+            <option> Teamwork</option>
+            <option>Organisation and time management</option>
+            <option>Leadership and team management</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="control">
+                          <input name="skillVal" class="slider has-output is-fullwidth is-circle" min="1" max="10" value="1" step="1" type="range">
+                        <output for="sliderWithValue">1</output>
+        </div>
+      </div>
+  </div>
+    `);
+        counter2++;
+
+    });
+
+    $('body').on('click', '#delete-skill', function(e) {
+        e.preventDefault();
+        $('#scol' + (counter2 - 1)).remove();
+        counter2--;
+
+    });
+
+
+      $(document).on('change', 'input.slider',function () {
+          $(this).next().html($(this).val());
+      });
+
+
+      $('body').on('click', '#add-language', function(e) {
+        $('#langrow').append(`		<div class="columns" id="lcol` + counter3 + `">
+      <div class="column">
+        <div class="control">
+          <div class="select is-fullwidth">
+            <select name="lang">
+            <option>Python</option>
+            <option>Java</option>
+            <option>Haskell</option>
+            <option>C</option>
+            <option>HTML</option>
+            <option>CSS</option>
+            <option>javascript</option>
+            <option>PHP</option>
+            <option>C++</option>
+            <option>c#</option>
+            <option>Ruby</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="control">
+                          <input name="langVal" class="slider has-output is-fullwidth is-circle" min="1" max="10" value="1" step="1" type="range">
+                        <output for="sliderWithValue">1</output>
+        </div>
+      </div>
+  </div>
+    `);
+        counter3++;
+
+    });
+
+    $('body').on('click', '#delete-language', function(e) {
+        e.preventDefault();
+        $('#lcol' + (counter3 - 1)).remove();
+        counter3--;
+
+    });
+
+
+
+});
+
+
+
+  $('body').on('click', '#add-skill', function(e) {
+    function findOutputForSlider(element) {
+        var idVal = element.id;
+        outputs = document.getElementsByTagName('output');
+        for (var i = 0; i < outputs.length; i++) {
+            if (outputs[i].htmlFor == idVal)
+                return outputs[i];
+        }
+    }
+
+    });
+
+</script>
+  </body>
+</html>

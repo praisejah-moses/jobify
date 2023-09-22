@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard</title>
+    <link rel="icon" href="../static/cieve.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link rel="stylesheet" href="../../static/main.css" />
+    <script src="../../static/js/jquery-3.3.1.min.js"></script>
+    <script async type="text/javascript" src="../static/js/bulma.js"></script>
+  </head>
+  <body>
+
+    <nav class="navbar has-shadow">
+      <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/apl">
+                <img src="../../static/CieveNavBar.png" alt="Cieve: an automated applicant solution">
+            </a>
+            <div class="navbar-burger burger" data-target="navMenuColorprimary-example">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <div id="navMenuColorprimary-example" class="navbar-menu">
+
+            <div class="navbar-start">
+              <a class="navbar-item" href="/apl">
+                <strong>Home</strong>
+              </a>
+
+              <a class="navbar-item" href="/privacy">
+                Privacy
+              </a>
+            </div>
+
+            <div class="navbar-end">
+
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link" href="#">
+                      {{name()}}
+                    </a>
+                    <div class="navbar-dropdown">
+
+                        <a class="navbar-item is-leveled " href="/logout">
+                            <span class="icon ">
+                                    <i class="fa fa-sign-out-alt"></i>
+                                </span>
+                            Sign Out
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </nav>
+
+
+      <div class="container">
+      <section class="section">
+
+        <div class="columns ">
+            <div class="column is-4-tablet is-3-desktop is-2-widescreen">
+
+                <aside class="menu ">
+                    <p class="menu-label ">
+                        General
+                    </p>
+                    <ul class="menu-list">
+                        <li>
+                            <a href="/apl"><span class="icon ">
+                                    <i class="fa fa-tachometer-alt"></i>
+                                </span>Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="/apl/newapplication"><span class="icon ">
+                                    <i class="fas fa-user-md"></i>
+                                </span>Apply Now</a>
+                        </li>
+                        <li>
+                            <a class="is-active" href="">
+                                <span class="icon">
+                                    <i class="fa fa-search"></i>
+                                </span>
+                                Job Search
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/apl/applications">
+                                <span class="icon">
+                                    <i class="fa fa-book"></i>
+                                </span>
+                                Applications
+                            </a>
+                        </li>
+                    </ul>
+
+                </aside>
+
+            </div>
+            <div class="column">
+            <h3 class="title is-3">Job Listings</h3>
+                <p>You can <a href="#jobNarrow">view all the open positions below</a> or use the following form to narrow down your options.</p>
+                <p>To apply to the available jobs please go to the <a  href="/apl/newapplication">Apply now</a> page</p>
+                <br><br>
+
+                <input name=_csrf_token id="_csrf_token" type=hidden value="{{ csrf_token() }}">
+
+                  <div class="field">
+                  <div class="columns">
+                      <div class="column">
+                          <label class="label">Division
+                            <div class="tooltip"><i class="fas fa-question-circle"></i><span class="tooltiptext">What area in the company would you like to work in?</span></div></label>
+                          <div class="control">
+                              <div class="select is-fullwidth">
+                                  <select name="divisions" id="divisionDropDown">
+                                      <option>Any</option>
+                                      {%for division in divisions%}
+                                        <option>{{ division }}</option>
+                                      {%endfor%}
+                                  </select>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="column">
+                          <label class="label">Role
+                            <div class="tooltip"><i class="fas fa-question-circle"></i><span class="tooltiptext">What role do you want to work as?</span></div></label>
+                          <div class="control">
+                              <div class="select is-fullwidth">
+                                  <select name="roles" id="roleDropDown">
+                                      <option>Any</option>
+                                      {%for role in roles%}
+                                        <option>{{ role }}</option>
+                                      {%endfor%}
+                                  </select>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="column">
+                          <label class="label">Location
+                            <div class="tooltip"><i class="fas fa-question-circle"></i><span class="tooltiptext">Which location do you want to work in?</span></div></label>
+                          <p class="control has-icons-left">
+                            <span class="select is-fullwidth">
+                              <select id="countryDropDown">
+                                <option selected>Any</option>
+                                  {%for location in locations%}
+                                    <option>{{ location }}</option>
+                                  {%endfor%}
+                              </select>
+                            </span>
+                            <span class="icon is-small is-left">
+                              <i class="fas fa-globe"></i>
+                            </span>
+                          </p>
+                      </div>
+                  </div>
+              </div>
+
+            <br>
+
+            <div class="columns" id="jobNarrow">
+                <div class="column">
+                </div>
+                <div class="column">
+
+                </div>
+            </div>
+
+            <div id="jobsReturned">
+              <div class="columns">
+                  <div class="column" id="first10">
+                  </div>
+                  <div class="column" id="second10">
+                  </div>
+              </div>
+            </div>
+            <br>
+
+
+
+
+
+
+            </div>
+
+      </section>
+
+      <script>
+          $(document).ready(function() {
+                  var pagenumber=1;
+                  updateSearch();
+                  $("#divisionDropDown").change(function () {
+                    updateSearch();
+                  });
+                  $("#roleDropDown").change(function () {
+                    updateSearch();
+                  });
+                  $("#countryDropDown").change(function () {
+                    updateSearch();
+                  });
+              // $('#searchBttn').click(function(e) {
+                  function updateSearch() {
+                    $('#first10').empty();
+                    $('#second10').empty();
+                    var token = document.getElementById('_csrf_token').value;
+                    var selectedDivision = $('#divisionDropDown').val();
+                    if (selectedDivision == "Any") {
+                      selectedDivision = "";
+                    }
+                    var selectedRole = $('#roleDropDown').val();
+                    if (selectedRole == "Any") {
+                      selectedRole = "";
+                    }
+                    var selectedLocation = $('#countryDropDown').val();
+                    if (selectedLocation == "Any") {
+                      selectedLocation = "";
+                    }
+
+                    $.ajax({
+                        url: '/getJobs',
+                        data: {
+                          page: pagenumber,
+                          division: selectedDivision,
+                          role: selectedRole,
+                          location: selectedLocation,
+                          _csrf_token: token
+                        },
+                        type: 'POST',
+                        success: function(response) {
+                            console.log(response);
+                            obj = jQuery.parseJSON(JSON.stringify(response));
+                            numJobs = obj.length;
+                            var jobCounter = 1;
+                            $.each(jQuery.parseJSON(JSON.stringify(response)), function(index, element) {
+                                if (jobCounter == numJobs){
+                                }
+                                else if (jobCounter%2==1) {
+                                  $('#first10').append(' <div class="box"> <div><h5 class="title is-5">'+element["vacancy title"]+'</h5> '+ element["vacancy description"] + '</div> <span class="tag is-light"><b> Division </b> &nbsp'+element["division"]+'</span> <span class="tag is-light"><b> Role Type </b> &nbsp'+ element["role type"]+'</span> <span class="tag is-light"><b> <i class="fas fa-map-marker-alt"> </i> </b> &nbsp'+ element["location"]+'</span></div>');
+                                } else {
+                                  $('#second10').append(' <div class="box"> <div><h5 class="title is-5">'+element["vacancy title"]+'</h5> '+ element["vacancy description"] + '</div> <span class="tag is-light"><b> Division </b> &nbsp'+element["division"]+'</span> <span class="tag is-light"><b> Role Type </b> &nbsp'+ element["role type"]+'</span> <span class="tag is-light"><b> <i class="fas fa-map-marker-alt"> </i> </b> &nbsp'+ element["location"]+'</span></div>');
+                                }
+                                jobCounter++;
+                            });
+                        },
+                        error: function(error) {
+                            alert("error")
+                            console.log(error);
+                        }
+                    });
+                  }
+
+
+          });
+      </script>
+
+
+  </body>
+</html>

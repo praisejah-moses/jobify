@@ -1,0 +1,1015 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
+    <link rel="icon" href="../static/cieve.ico">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link rel="stylesheet" href="../../static/main.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-steps@2.2.1/dist/css/bulma-steps.min.css">
+    <script src="../../static/js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../../static/js/bulma-slider.min.js"></script>
+    <link rel="stylesheet" href="../../static/css/bulma-slider.min.css">
+    <link href="../../static/bulma-calendar-master/dist/css/bulma-calendar.min.css" rel="stylesheet">
+    <script src="../../static/bulma-calendar-master/dist/js/bulma-calendar.min.js"></script>
+    <link href="../../static/dist/css/bulma-steps.min.css" rel="stylesheet">
+    <script src="../../static/dist/js/bulma-steps.js"></script>
+    <script async type="text/javascript" src="../static/js/bulma.js"></script>
+  </head>
+  <body>
+
+    <nav class="navbar has-shadow">
+      <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/apl">
+                <img src="../../static/CieveNavBar.png" alt="Cieve: an automated applicant solution">
+            </a>
+            <div class="navbar-burger burger" data-target="navMenuColorprimary-example">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <div id="navMenuColorprimary-example" class="navbar-menu">
+
+            <div class="navbar-start">
+              <a class="navbar-item" href="/apl">
+                <strong>Home</strong>
+              </a>
+
+              <a class="navbar-item" href="/privacy">
+                Privacy
+              </a>
+            </div>
+
+            <div class="navbar-end">
+
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link" href="#">
+                      {{name()}}
+                    </a>
+                    <div class="navbar-dropdown">
+
+                        <a class="navbar-item is-leveled " href="/logout">
+                            <span class="icon ">
+                                    <i class="fa fa-sign-out-alt"></i>
+                                </span>
+                            Sign Out
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </nav>
+
+
+      <div class="container">
+      <section class="section">
+
+        <div class="columns ">
+            <div class="column is-4-tablet is-3-desktop is-2-widescreen">
+
+                <aside class="menu ">
+                    <p class="menu-label ">
+                        General
+                    </p>
+                    <ul class="menu-list">
+                        <li>
+                            <a href="/apl"><span class="icon ">
+                                    <i class="fa fa-tachometer-alt"></i>
+                                </span>Dashboard</a>
+                        </li>
+                        <li>
+                            <a class="is-active" href=""><span class="icon ">
+                                    <i class="fas fa-user-md"></i>
+                                </span>Apply Now</a>
+                        </li>
+                        <li>
+                            <a href="/apl/jobsearch">
+                                <span class="icon">
+                                    <i class="fa fa-search"></i>
+                                </span>
+                                Job Search
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/apl/applications">
+                                <span class="icon">
+                                    <i class="fa fa-book"></i>
+                                </span>
+                                Applications
+                            </a>
+                        </li>
+                    </ul>
+
+                </aside>
+
+            </div>
+            <div class="column">
+            <h3 class="title is-3">Create Your Application</h3>
+
+            <div id="processing" style='display:none;'>
+            Your application has been submitted!
+            </div>
+
+            <div class="steps" id="ApplicationSteps">
+              <div class="step-item is-active is-success">
+                <div class="step-marker">1</div>
+                <div class="step-details">
+                  <p class="step-title">Personal Details</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-marker">2</div>
+                <div class="step-details">
+                  <p class="step-title">Education</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-marker">3</div>
+                <div class="step-details">
+                  <p class="step-title">Employment</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-marker">4</div>
+                <div class="step-details">
+                  <p class="step-title">Attributes</p>
+                </div>
+              </div>
+              <div class="step-item" id="jobSelectorStage">
+                <div class="step-marker">5</div>
+                <div class="step-details">
+                  <p class="step-title">Job Selector</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-marker">6</div>
+                <div class="step-details">
+                  <p class="step-title">Finish</p>
+                </div>
+              </div>
+
+              <div class="steps-content">
+
+                <div class="step-content has-text-centered is-active">
+                  <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                      <label class="label">Phone Number</label>
+                    </div>
+                    <div class="field-body">
+                      <div class="field">
+                        <div class="control">
+                          <input class="input" id="phoneNumber" type="text" name="phone_number" placeholder="Number" autofocus data-validate="require">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                      <label class="label">Address</label>
+                    </div>
+                    <div class="field-body">
+                      <div class="field">
+                        <div class="control has-icon has-icon-right">
+                          <textarea class="textarea" placeholder="Address" name="address" id="address"></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="step-content">
+                  <center><h4 class="title is-4">University</h4></center><br>
+
+                  <div class="columns">
+                      <div class="column">
+                          <div class="field">
+                          <label class="label">Degree Qualification
+                            <div class="tooltip"><i class="fas fa-question-circle"></i><span class="tooltiptext">What area in the company would you like to work in?</span></div></label>
+                          <p class="control has-icons-left">
+                              <span class="select is-fullwidth">
+                                  <select name="degreeQualification" id="degreeQualification" onchange='CheckDegree(this.value);'>
+                                      <option>Computer Science</option>
+                                      <option>Mathematics</option>
+                                      <option>Economics</option>
+                                      <option>Chemistry</option>
+                                      <option>Engineering</option>
+                                      <option>History</option>
+                                      <option>Accounting, business and finance</option>
+                                      <option>Other</option>
+                                  </select>
+                              </span>
+                              <span class="icon is-small is-left">
+                                <i class="fas fa-book"></i>
+                              </span>
+                          </p>
+                        </div>
+                        <div class="field">
+                          <input class="input" type="text" id="otherDegree" style='display:none;' placeholder="Please specify the Degree">
+                        </div>
+                      </div>
+                      <div class="column">
+                          <div class="field">
+                          <label class="label">Degree Level
+                            <div class="tooltip"><i class="fas fa-question-circle"></i><span class="tooltiptext">What role do you want to work as?</span></div></label>
+                          <p class="control has-icons-left">
+                              <span class="select is-fullwidth">
+                                  <select name="degreeLevel" id="degreeLevel">
+                                      <option>1:1</option>
+                                      <option>2:1</option>
+                                      <option>2:2</option>
+                                  </select>
+                              </span>
+                              <span class="icon is-small is-left">
+                                <i class="fas fa-user-graduate"></i>
+                              </span>
+                          </p>
+                        </div>
+                        <div class="field">
+                          <label class="label">Is this your predicted level?</label>
+                          <label class="checkbox">
+                            <input type="checkbox" id="predictedLevel" onchange='CheckPredicted();'>
+                            Yes
+                          </label>
+                        </div>
+                        <div class="field" style='display:none;' id="YearOfGraduation">
+                        <label class="label">Year of Graduation</label>
+                        <p class="control has-icons-left">
+                          <span class="select is-fullwidth">
+                            <select name="yearGraduation" id="yearGraduation">
+                              <option selected>2020</option>
+                              <option>2021</option>
+                              <option>2022</option>
+                              <option>2023</option>
+                            </select>
+                          </span>
+                          <span class="icon is-small is-left">
+                            <i class="fas fa-calendar-alt"></i>
+                          </span>
+                        </p>
+                      </div>
+                      </div>
+
+                      <div class="column">
+                          <div class="field">
+                          <label class="label">University Attended
+                            <div class="tooltip"><i class="fas fa-question-circle"></i><span class="tooltiptext">Which country do you want to work in?</span></div></label>
+                          <p class="control has-icons-left">
+                            <span class="select is-fullwidth">
+                              <select name="universityAttended" id="universityAttended" onchange='CheckUniversity(this.value);'>
+                                <option selected>Warwick University</option>
+                                <option>University of Leicester</option>
+                                <option>University of Manchester</option>
+                                <option>University of Bristol</option>
+                                <option>University of Cambridge</option>
+                                <option>University of Leeds</option>
+                                <option>University of Birmingham</option>
+                                <option>University of Nottingham</option>
+                                <option value="London School of Economics and Political Science (LSE)">London School of Economics (LSE)</option>
+                                <option value="University College London (UCL)">University College London (UCL)</option>
+                                <option value="University of Oxford">University of Oxford</option>
+                                <option value="University of Bath">University of Bath</option>
+                                <option>Other</option>
+                              </select>
+                            </span>
+                            <span class="icon is-small is-left">
+                              <i class="fas fa-university"></i>
+                            </span>
+                          </p>
+                        </div>
+                        <div class="field">
+                          <input class="input" type="text" id="otherUni" style='display:none;' placeholder="Please specify the University">
+                        </div>
+                        <script>
+                        function CheckUniversity(val){
+                         var element=document.getElementById('otherUni');
+                         if(val=='Other')
+                           element.style.display='block';
+                         else
+                           element.style.display='none';
+                        }
+
+                        function CheckDegree(val){
+                         var element=document.getElementById('otherDegree');
+                         if(val=='Other')
+                           element.style.display='block';
+                         else
+                           element.style.display='none';
+                        }
+
+                        function CheckPredicted(){
+                          if($('#predictedLevel').is(":checked"))
+                               $("#YearOfGraduation").show();
+                           else
+                               $("#YearOfGraduation").hide();
+                       }
+                        </script>
+                      </div>
+                  </div>
+
+
+
+                  <br><center><h4 class="title is-4">A Level Qualifications</h4></center><br>
+
+                  <center>
+                  <div class="table-responsive">
+                       <table class="table is-fullwidth" id="dynamic_field_aLevels">
+                           <tr>
+                                <td><b>A Level</b></td>
+                                <td><b>Grade</b></td>
+                                <td></td>
+                           </tr>
+                            <tr>
+                                 <td><input class="input" type="text" placeholder="A Level Name"></td>
+                                 <td><input class="input" type="text" placeholder="Grade"></td>
+                                 <td><a class="button is-link" name="add" id="add" value="Add Row">Add More</a></td>
+                            </tr>
+                       </table>
+                  </div>
+                </center>
+
+                </div>
+
+                <div class="step-content has-text-centered">
+                  <div class="table-responsive">
+                       <table class="table is-fullwidth" id="dynamic_field_employment">
+                           <tr>
+                                <td><b>Company/Institute</b></td>
+                                <td><b>Position</b></td>
+                                <td><b>Start Date</b></td>
+                                <td><b>End Date <div class="tooltip"><i class="fas fa-question-circle"></i><span class="tooltiptext">If you are still employeed, please leave blank.</span></div></b></td>
+                                <td><b></b></td>
+                                <td></td>
+                           </tr>
+                            <tr>
+                                 <td><input class="input" type="text" placeholder="Company/Institute Name"></td>
+                                 <td><input class="input" type="text" placeholder="Position"></td>
+                                 <td><input type="date"></td>
+                                 <td><input type="date"></td>
+                                 <td><a class="button is-link" name="add" id="addEmployment" value="Add Row">Add More</a></td>
+                            </tr>
+                       </table>
+                  </div>
+                  <!-- <script>
+                  // Initialize all input of date type.
+                  bulmaCalendar.attach();
+                  </script> -->
+                  <script>
+                   $(document).ready(function(){
+                         var i=1;
+                         $('#add').click(function(){
+                              i++;
+                              $('#dynamic_field_aLevels').append('<tr id="row'+i+'"><td><input class="input" type="text" placeholder="A Level Name"></td><td><input class="input" type="text" placeholder="Grade"></td><td><a class="button is-danger btn_remove" name="remove" id="'+i+'">X</a></td></tr>');
+                         });
+
+                        $('#addEmployment').click(function(){
+                             i++;
+                             $('#dynamic_field_employment').append('<tr id="row'+i+'"><td><input class="input" type="text" placeholder="Company/Institute Name"></td><td><input class="input" type="text" placeholder="Position"></td><td><input type="date"></td><td><input type="date"></td><td><a class="button is-danger btn_employment_remove" name="remove" id="'+i+'">X</a></td></tr>');
+                        });
+
+                        $(document).on('click', '.btn_employment_remove', function(){
+                             var button_id = $(this).attr("id");
+                             $('#row'+button_id+'').remove();
+                        });
+                        $(document).on('click', '.btn_remove', function(){
+                             var button_id = $(this).attr("id");
+                             $('#row'+button_id+'').remove();
+                        });
+                   });
+                   </script>
+                </div>
+
+
+                <div class="step-content">
+                  <center><h4 class="title is-4">Languages</h4></center><br>
+                  <div class="field" id="languagesSection">
+                      <div class="columns">
+                          <div class="column">
+                              <label class="label">Language Name</label>
+                              <div class="control">
+                                  <div class="select is-fullwidth">
+                                      <select name="languages" id="language0">
+                                        <option>Python</option>
+                                        <option>Java</option>
+                                        <option>Haskell</option>
+                                        <option>C</option>
+                                        <option>HTML</option>
+                                        <option>CSS</option>
+                                        <option>javascript</option>
+                                        <option>PHP</option>
+                                        <option>C++</option>
+                                        <option>c#</option>
+                                        <option>Ruby</option>
+                                      </select>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="column">
+                              <label class="label">Proficiency <div class="tooltip"><i class="fas fa-question-circle"></i><span class="tooltiptext">Rate your experience on a scale from 1 to 10 where 1 is a beginner and 10 is expert. 1 is new to the language.</span></div></label>
+                              <div class="control">
+                                <input name="languageVal" id="sliderWithValue" class="slider has-output is-fullwidth is-circle" min="1" max="10" value="1" step="1" type="range">
+                                <output for="sliderWithValue">1</output>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="field is-grouped ">
+                      <p class="control">
+                          <a class="button is-primary" id="add-language">
+                  Add Language
+                </a>
+                      </p>
+                      <p class="control">
+                          <a class="button is-light" id="delete-language">
+                  Delete Language
+                </a>
+                      </p>
+                  </div>
+
+                  <br><center><h4 class="title is-4">Skills</h4></center><br>
+                  <div class="field" id="skillsSection">
+                      <div class="columns">
+                          <div class="column">
+                              <label class="label">Skill Name</label>
+                              <div class="control">
+                                  <div class="select is-fullwidth">
+                                      <select name="skills">
+                                        <option>Powerpoint</option>
+                                        <option>Git</option>
+                                        <option>Presentation</option>
+                                        <option>Team Work</option>
+                                        <option>Project Management</option>
+                                        <option>Problem Solving</option>
+                                        <option>Customer service</option>
+                                        <option>Numeracy skills</option>
+                                        <option> Teamwork</option>
+                                        <option>Organisation and time management</option>
+                                        <option>Leadership and team management</option>
+                                      </select>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="column">
+                              <label class="label">Proficiency <div class="tooltip"><i class="fas fa-question-circle"></i><span class="tooltiptext">Rate your experience on a scale from 1 to 10 where 1 is a beginner and 10 is expert. 1 is new to the language.</span></div></label>
+                              <div class="control">
+                                <input name="skillVal" id="sliderWithValue" class="slider has-output is-fullwidth is-circle" min="1" max="10" value="1" step="1" type="range">
+                                <output for="sliderWithValue">1</output>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="field is-grouped ">
+                      <p class="control">
+                          <a class="button is-primary" id="add-skill">
+                  Add Skill
+                </a>
+                      </p>
+                      <p class="control">
+                          <a class="button is-light" id="delete-skill">
+                  Delete Skill
+                </a>
+                      </p>
+                  </div>
+
+                </div>
+                <script>
+                    $(document).ready(function() {
+                        var languageCounter = 1;
+                        var skillCounter = 1;
+
+                        $('body').on('click', '#nextStepBttn', function(e) {
+                          if ($('#jobSelectorStage').hasClass('is-active')) {
+                            var selectedDivision = $('#divisionDropDown').val();
+                            var selectedRole = $('#roleDropDown').val();
+                            var selectedLocation = $('#countryDropDown').val();
+                            if ((selectedDivision == "Please Select")||(selectedRole == "Please Select")||(selectedLocation == "Please Select")) {
+                              $('#nextStepBttn').prop('disabled', true);
+                             // alert("test");
+                            } else {
+                              $('#nextStepBttn').prop('disabled', false);
+                            }
+                          } else {
+                            $('#nextStepBttn').prop('disabled', false);
+                          }
+                        });
+
+
+                        $('body').on('click', '#submitApplicationBttn', function(e) {
+                            var applicationData = {};
+                            applicationData["Phone_Number"] = $('#phoneNumber').val();
+                            applicationData["Address"] = $('#address').val();
+                            if ($("#degreeQualification").val()=="Other") {
+                              applicationData["Degree_Qualification"] = $('#otherDegree').val();
+                            } else {
+                              applicationData["Degree_Qualification"] = $("#degreeQualification").val();
+                            }
+                            applicationData["Degree_Level"] = $('#degreeLevel').val();
+                            if ($('#predictedLevel').is(":checked")) {
+                              applicationData["Graduation_Year"] = $("#yearGraduation").val();
+                            } else {
+                              applicationData["Graduation_Year"] = 0;
+                            }
+                            if ($("#universityAttended").val()=="Other") {
+                              applicationData["University_Attended"] = $('#otherUni').val();
+                            } else {
+                              applicationData["University_Attended"] = $("#universityAttended").val();
+                            }
+
+                            var a_levels_array = new Array();
+                            var aLevel = new Array();
+                            var x = 1;
+                            $("#dynamic_field_aLevels input").each(function(){
+                               if (x%2 == 0) {
+                                 aLevel.push($(this).val());
+                                 a_levels_array.push(aLevel);
+                                 aLevel = [];
+                                 x = 1;
+                               } else {
+                                 aLevel.push($(this).val());
+                                 x++;
+                               }
+                            });
+
+                            applicationData["a_levels"] = a_levels_array;
+
+                            var languageName = new Array();
+                            $('[name=languages]').each(function(index) {
+                              languageName.push($(this).val());
+                            });
+
+                            var languageProficiency = new Array();
+                            $('[name=languageVal]').each(function(index) {
+                              languageProficiency.push($(this).val());
+                            });
+
+                            var languages = new Array();
+                            $.each(languageName, function( index, value ) {
+                              languages.push([value, languageProficiency[index]]);
+                            });
+
+                            applicationData["Languages"] = languages;
+
+
+                            var skillName = new Array();
+                            $('[name=skills]').each(function(index) {
+                              skillName.push($(this).val());
+                            });
+
+                            var skillProficiency = new Array();
+                            $('[name=skillVal]').each(function(index) {
+                              skillProficiency.push($(this).val());
+                            });
+
+                            var skills = new Array();
+                            $.each(skillName, function( index, value ) {
+                              skills.push([value, skillProficiency[index]]);
+                            });
+
+                            if ($('#checkOtherRoles').is(":checked")) {
+                              applicationData["Consider_for_other_roles"]=1;
+                            } else{
+                              applicationData["Consider_for_other_roles"]=0;
+                            }
+
+                            applicationData["Skills"] = skills;
+
+                            var selectedJobs = new Array();
+                            var unselectedJobs = new Array();
+
+                            $("#jobsTable input").each(function(){
+                              if($(this).is(":checked")){
+                                   selectedJobs.push($(this).attr("id"));
+                               }else{
+                                   unselectedJobs.push($(this).attr("id"));
+                               }
+                            });
+
+                            applicationData["Selected_Jobs"] = selectedJobs;
+                            applicationData["Unselected_Jobs"] = unselectedJobs;
+
+                            var x = 1;
+                            var previous_jobs = new Array();
+                            var job = new Array();
+                            $("#dynamic_field_employment input").each(function(){
+                               if (x%4 == 0) {
+                                 job.push($(this).val());
+                                 previous_jobs.push(job);
+                                 job = [];
+                                 x = 1;
+                               } else {
+                                 job.push($(this).val());
+                                 x++;
+                               }
+                            });
+
+                            applicationData["Employment_History"] = previous_jobs;
+
+                            applicationData["Cover_Letter"] = $('#coverLetter').val();
+                            applicationData["Interesting_Facts"] = $('#interestingFacts').val();
+                            applicationData["_csrf_token"] = document.getElementById('_csrf_token').value;
+
+                            console.log(applicationData);
+                            $.ajax({
+                                url: '/apl/newapplication',
+                                type: 'POST',
+                                data: applicationData,
+                                success: function(response){
+                                }
+                            })
+
+                            $( "#ApplicationSteps" ).fadeOut( "slow", function() {
+                              $( "#processing" ).show();
+                            });
+                        });
+
+
+                        $('#add-language').click(function(e) {
+                            $('#languagesSection').append(`		<div class="columns" id="language` + languageCounter + `">
+            							<div class="column">
+            							<label class="label">Language Name</label>
+            								<div class="control">
+            									<div class="select is-fullwidth">
+            										<select name="languages" id="language` + languageCounter + `">
+                                <option>Python</option>
+                                <option>Java</option>
+                                <option>Haskell</option>
+                                <option>C</option>
+                                <option>HTML</option>
+                                <option>CSS</option>
+                                <option>javascript</option>
+                                <option>PHP</option>
+                                <option>C++</option>
+                                <option>c#</option>
+                                <option>Ruby</option>
+            										</select>
+            									</div>
+            								</div>
+            							</div>
+            							<div class="column">
+            							<label class="label">Proficiency</label>
+            								<div class="control">
+                                              <input name="languageVal" id="sliderWithValue" class="slider has-output is-fullwidth is-circle" min="1" max="10" value="1" step="1" type="range">
+                                            <output for="sliderWithValue">1</output>
+            								</div>
+            							</div>
+            					</div>
+            						`);
+                            languageCounter++;
+
+                        });
+
+                        $('#add-skill').click(function(e) {
+                            $('#skillsSection').append(`		<div class="columns" id="skill` + skillCounter + `">
+            							<div class="column">
+                          <label class="label">Skill Name</label>
+                          <div class="control">
+                              <div class="select is-fullwidth">
+                                  <select name="skills">
+                                  <option>Powerpoint</option>
+                                  <option>Git</option>
+                                  <option>Presentation</option>
+                                  <option>Team Work</option>
+                                  <option>Project Management</option>
+                                  <option>Problem Solving</option>
+                                  <option>Customer service</option>
+                                  <option>Numeracy skills</option>
+                                  <option> Teamwork</option>
+                                  <option>Organisation and time management</option>
+                                  <option>Leadership and team management</option>
+                                  </select>
+                              </div>
+                          </div>
+            							</div>
+            							<div class="column">
+            							<label class="label">Proficiency</label>
+            								<div class="control">
+                                              <input name="skillVal" id="sliderWithValue" class="slider has-output is-fullwidth is-circle" min="1" max="10" value="1" step="1" type="range">
+                                            <output for="sliderWithValue">1</output>
+            								</div>
+            							</div>
+            					</div>
+            						`);
+                            skillCounter++;
+
+                        });
+
+                        $('body').on('click', '#delete-language', function(e) {
+                            e.preventDefault();
+                            $('#language' + (languageCounter - 1)).remove();
+                            languageCounter--;
+                        });
+
+                        $('body').on('click', '#delete-skill', function(e) {
+                            e.preventDefault();
+                            $('#skill' + (skillCounter - 1)).remove();
+                            skillCounter--;
+                        });
+
+                        $(document).on('change', 'input.slider',function () {
+                            $(this).next().html($(this).val());
+                        });
+                    });
+
+                    // Find output DOM associated to the DOM element passed as parameter
+                    function findOutputForSlider(element) {
+                        var idVal = element.id;
+                        outputs = document.getElementsByTagName('output');
+                        for (var i = 0; i < outputs.length; i++) {
+                            if (outputs[i].htmlFor == idVal)
+                                return outputs[i];
+                        }
+                    }
+
+                    function getSliderOutputPosition(slider) {
+                        // Update output position
+                        var newPlace,
+                            minValue;
+
+                        var style = window.getComputedStyle(slider, null);
+                        // Measure width of range input
+                        sliderWidth = parseInt(style.getPropertyValue('width'), 10);
+
+                        // Figure out placement percentage between left and right of input
+                        if (!slider.getAttribute('min')) {
+                            minValue = 0;
+                        } else {
+                            minValue = slider.getAttribute('min');
+                        }
+                        var newPoint = (slider.value - minValue) / (slider.getAttribute('max') - minValue);
+
+                        // Prevent bubble from going beyond left or right (unsupported browsers)
+                        if (newPoint < 0) {
+                            newPlace = 0;
+                        } else if (newPoint > 1) {
+                            newPlace = sliderWidth;
+                        } else {
+                            newPlace = sliderWidth * newPoint;
+                        }
+
+                        return {
+                            'position': newPlace + 'px'
+                        }
+                    }
+
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // Get all document sliders
+                        var sliders = document.querySelectorAll('input[type="range"].slider');
+                        [].forEach.call(sliders, function(slider) {
+                            var output = findOutputForSlider(slider);
+                            if (output) {
+                                if (slider.classList.contains('has-output-tooltip')) {
+                                    // Get new output position
+                                    var newPosition = getSliderOutputPosition(slider);
+
+                                    // Set output position
+                                    output.style['left'] = newPosition.position;
+                                }
+
+                                // Add event listener to update output when slider value change
+                                slider.addEventListener('input', function(event) {
+                                    if (event.target.classList.contains('has-output-tooltip')) {
+                                        // Get new output position
+                                        var newPosition = getSliderOutputPosition(event.target);
+
+                                        // Set output position
+                                        output.style['left'] = newPosition.position;
+                                    }
+
+                                    // Update output with slider value
+                                    output.value = event.target.value;
+                                });
+                            }
+                        });
+                    });
+                </script>
+                <input name="_csrf_token" id="_csrf_token" type=hidden value="{{ csrf_token() }}">
+                <div class="step-content">
+                  <div class="field">
+                      <div class="columns" id="filterSection">
+                          <div class="column">
+                              <label class="label">Division
+                                <div class="tooltip"><i class="fas fa-question-circle"></i><span class="tooltiptext">What area in the company would you like to work in?</span></div></label>
+                              <div class="control">
+                                  <div class="select is-fullwidth">
+                                      <select name="divisions" id="divisionDropDown">
+                                          <option>Please Select</option>
+                                          {%for division in divisions%}
+                                            <option>{{ division }}</option>
+                                          {%endfor%}
+                                      </select>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="column">
+                              <label class="label">Role
+                                <div class="tooltip"><i class="fas fa-question-circle"></i><span class="tooltiptext">What role do you want to work as?</span></div></label>
+                              <div class="control">
+                                  <div class="select is-fullwidth">
+                                      <select name="roles" id="roleDropDown">
+                                          <option>Please Select</option>
+                                          {%for role in roles%}
+                                            <option>{{ role }}</option>
+                                          {%endfor%}
+                                      </select>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="column">
+                              <label class="label">Location
+                                <div class="tooltip"><i class="fas fa-question-circle"></i><span class="tooltiptext">Which location do you want to work in?</span></div></label>
+                                <p class="control has-icons-left">
+                                <span class="select is-fullwidth">
+                                  <select id="countryDropDown">
+                                    <option selected>Please Select</option>
+                                    {%for location in locations%}
+                                      <option>{{ location }}</option>
+                                    {%endfor%}
+                                  </select>
+                                </span>
+                                <span class="icon is-small is-left">
+                                  <i class="fas fa-globe"></i>
+                                </span>
+                              </p>
+                          </div>
+                      </div>
+                  </div>
+
+                  <br>
+                  <input name=_csrf_token id="_csrf_token" type=hidden value="{{ csrf_token() }}">
+                  <script>
+                      $(document).ready(function() {
+
+                            updateSearch();
+                            $("#divisionDropDown").change(function () {
+                              updateSearch();
+                            });
+                            $("#roleDropDown").change(function () {
+                              updateSearch();
+                            });
+                            $("#countryDropDown").change(function () {
+                              updateSearch();
+                            });
+
+                            function updateSearch() {
+                              $("#jobsTable tbody > tr").remove();
+                              var pagenumber = 0;
+                              var token = document.getElementById('_csrf_token').value;
+                              var selectedDivision = $('#divisionDropDown').val();
+                              var selectedRole = $('#roleDropDown').val();
+                              var selectedLocation = $('#countryDropDown').val();
+                              if ((selectedDivision == "Please Select")||(selectedRole == "Please Select")||(selectedLocation == "Please Select")) {
+                                $('#jobSelection').hide();
+                                $('#noMatchingJobs').hide();
+                                $('#notAllFiltersSelected').fadeIn('slow');
+                                return;
+                              }
+                              $('#notAllFiltersSelected').hide();
+                              $.ajax({
+                                  url: '/getJobs',
+                                  data: {
+                                    page: pagenumber,
+                                    division: selectedDivision,
+                                    role: selectedRole,
+                                    location: selectedLocation,
+                                    _csrf_token: token
+                                  },
+                                  type: 'POST',
+                                  success: function(response) {
+                                      console.log(response);
+                                      obj = jQuery.parseJSON(JSON.stringify(response));
+                                      numJobs = obj.length;
+                                      var jobCounter = 1;
+                                      $.each(jQuery.parseJSON(JSON.stringify(response)), function(index, element) {
+                                          if (jobCounter!=numJobs) {
+                                            $('#jobsTable').append('<tr><td>'+element["vacancy title"]+'</td><td>'+element["location"]+'</td><td><input type="checkbox" name="checkIfJobSelected" id='+element["_id"]+'></td></tr>');
+                                          }
+                                          jobCounter++;
+                                      });
+                                      if (jobCounter == 2){
+                                        $('#jobSelection').hide();
+                                        $('#noMatchingJobs').fadeIn('slow');
+                                      } else {
+                                        $('#noMatchingJobs').hide();
+                                        $('#jobSelection').fadeIn('slow');
+                                      }
+                                  },
+                                  error: function(error) {
+                                      //alert("error")
+                                      console.log(error);
+                                  }
+                              });
+                            }
+
+                          });
+                  </script>
+
+                  <div id="notAllFiltersSelected">
+                    Please select a division, role and country!
+                  </div>
+
+                  <div id="noMatchingJobs" style='display:none;'>
+                    There are currently no open positions that match your chosen criteria. Try changing the division, role or country to find open positions.
+                  </div>
+
+                  <div id="jobSelection">
+                  <label class="label">Matching positions:</label>
+                  <table class="table is-fullwidth is-scrollable" id="jobsTable">
+                  <thead>
+                    <tr>
+                      <th>Job Title</th>
+                      <th>Location</th>
+                      <th>Select</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                  </tbody>
+                </table>
+
+
+                  <label class="label">Want to be considered for other roles?</label>
+                  <label class="checkbox" id="considerForOtherRoles">
+                    <input type="checkbox" id="checkOtherRoles">
+                    Would you like us to considered you for roles that you may be better suited for, within your matching criteria of division, role and location.
+                  </label>
+                </div>
+
+                </div>
+
+                <div class="step-content">
+                  <div>
+                  <h4 class="title is-4">Your application is almost complete...</h4>
+                   Before you submit your application you can provide a cover letter along with an interesting fact about yourself?
+                 </div> <br>
+
+                  <div class="field is-horizontal">
+                     <div class="field-label -is-normal">
+                       <label class="label">Cover Letter</label>
+                     </div>
+                     <div class="field-body">
+                       <div class="field">
+                         <div class="control has-icon has-icon-right">
+                           <textarea class="textarea" placeholder="Cover Letter" id="coverLetter"></textarea>
+                         </div>
+                       </div>
+                     </div>
+                   </div>
+                  <div class="field is-horizontal">
+                     <div class="field-label -is-normal">
+                       <label class="label">Interesting Facts</label>
+                     </div>
+                     <div class="field-body">
+                       <div class="field">
+                         <div class="control has-icon has-icon-right">
+                           <textarea class="textarea" placeholder="Interesting Facts" id="interestingFacts"></textarea>
+                         </div>
+                       </div>
+                     </div>
+                   </div>
+
+                <center>
+                <a class="button is-success" id="submitApplicationBttn">Submit Application</a>
+                </center>
+
+                </div>
+
+
+              </div>
+
+
+
+              <div class="steps-actions">
+                <div class="steps-action">
+                  <a href="#" data-nav="previous" class="button is-light">Previous</a>
+                </div>
+                <div class="steps-action">
+                  <a href="#" data-nav="next" class="button is-light" id="nextStepBttn">Next</a>
+                </div>
+              </div>
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/bulma-steps@2.2.1/dist/js/bulma-steps.js"></script>
+            <script>document.addEventListener("DOMContentLoaded", function(event) {
+                      console.log("DOM fully loaded and parsed");
+                      bulmaSteps.attach();
+                    }); //bulmaCalendar.attach();</script>
+
+                <form action="/apl/newapplication" method="POST">
+
+
+
+            </div>
+
+      </section>
+    </div>
+
+    </div>
+  </section
+  </body>
+</html>

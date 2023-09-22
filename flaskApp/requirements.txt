@@ -1,0 +1,10 @@
+flask
+gunicorn
+awsebcli
+bcrypt
+dnspython
+jsonschema
+pymongo
+pytest
+python-dateutil
+Werkzeug

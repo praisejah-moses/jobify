@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link rel="stylesheet" href="../static/main.css" />
+    <script src="../static/bulma-quickview/js/bulma-quickview.js"></script>
+    <link href="../static/bulma-quickview/css/bulma-quickview.min.css" rel="stylesheet">
+    <link rel="icon" href="../static/cieve.ico">
+    <script src="../../static/js/jquery-3.3.1.min.js"></script>
+    <script async type="text/javascript" src="../static/js/bulma.js"></script>
+
+    <script>document.addEventListener("DOMContentLoaded", function(event) {
+              console.log("DOM fully loaded and parsed");
+              var quickviews = bulmaQuickview.attach();
+            }); //bulmaCalendar.attach();</script>
+
+    <script>
+      $(document).ready(function() {
+          var currentStage = 0;
+
+          // $.ajax({
+          //     url: '/cli/stageDetail',
+          //     type: 'POST',
+          //     data: candidateData,
+          //     success: function(response){
+          //         console.log(response);
+          //         obj = jQuery.parseJSON(JSON.stringify(response));
+          //         completed = obj[0];
+          //         uncompleted = obj[1];
+          //         if (stageToDisplay == "Test") {
+          //           addToTestStep(completed, uncompleted);
+          //         } else if (stageToDisplay == "Interview") {
+          //           addToInterviewStep(completed, uncompleted);
+          //         } else {
+          //           addToAcceptStep(uncompleted);
+          //         }
+          //         // add colours to scores
+          //         addColourToScores();
+          //     }
+          // })
+
+          $('.increment').on('click', function() {
+
+            var currentVal = $(this).parent().parent().children(':first-child').children().val();
+            var newVal = parseFloat(currentVal) + 0.01;
+            $(this).parent().parent().children(':first-child').children().val(newVal);
+          });
+
+          $('.decrement').on('click', function() {
+            var currentVal = $(this).parent().parent().children(':first-child').children().val();
+            var newVal = parseFloat(currentVal) - 0.01;
+            $(this).parent().parent().children(':first-child').children().val(newVal);
+          });
+
+
+      });
+    </script>
+
+  </head>
+  <body>
+
+    <nav class="navbar has-shadow">
+      <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/cli">
+                <img src="../../static/CieveNavBar.png" alt="Cieve: an automated applicant solution">
+            </a>
+            <div class="navbar-burger burger" data-target="navMenuColorprimary-example">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <div id="navMenuColorprimary-example" class="navbar-menu">
+
+            <div class="navbar-start">
+              <a class="navbar-item" href="/cli">
+                <strong>Home</strong>
+              </a>
+
+              <a class="navbar-item" href="/privacy">
+                Privacy
+              </a>
+            </div>
+
+            <div class="navbar-end">
+                        <a class="navbar-item is-leveled " href="/logout">
+                            <span class="icon ">
+                                    <i class="fa fa-sign-out-alt"></i>
+                                </span>
+                            Sign Out
+                        </a>
+
+            </div>
+        </div>
+        </div>
+    </nav>
+
+      <div class="container">
+      <section class="section">
+
+        <div class="columns ">
+            <div class="column is-4-tablet is-3-desktop is-2-widescreen">
+
+                <aside class="menu ">
+                    <p class="menu-label ">
+                        General
+                    </p>
+                    <ul class="menu-list">
+                        <li>
+                            <a class="is-active" href="/cli"><span class="icon ">
+                                    <i class="fa fa-tachometer-alt"></i>
+                                </span>Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="/cli/jobs">
+                                <span class="icon">
+                                    <i class="fa fa-search"></i>
+                                </span>
+                                Your Jobs
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/cli/newjob">
+                                <span class="icon">
+                                    <i class="fa fa-plus"></i>
+                                </span>
+                                New Job
+                            </a>
+                        </li>
+                    </ul>
+                </aside>
+
+            </div>
+            <main class="column ">
+
+                <div>
+                <h1 class="title ">Dashboard</h1>
+
+                <h2 class="subtitle" style="margin-bottom: 0px;">Your phish code is {{phish()}}</h2>
+                <p class="help" style="margin-top: 0px;">What is a <a data-show="quickview" data-target="quickviewDefault">phish code?</a></p>
+              </div>
+
+                  <!-- <button class="button is-small" data-show="quickview" data-target="quickviewDefault"><b>{#{phish()}#}</b></button></h2> -->
+
+                <div id="quickviewDefault" class="quickview">
+                  <header class="quickview-header">
+                    <h3 class="title is-3"><b>What is a phish code?</b></h3>
+                    <span class="delete" data-dismiss="quickview"></span>
+                  </header>
+
+                  <div class="quickview-body">
+                    <div class="quickview-block">
+                      This is randomly generated when you sign up. We use it to help protect you against phishing attacks.<br>
+                      We'll include it in all of our emails to you so you know that it's us on the other end. <br>
+                      We'll <b>never</b> ask you for your phish code.
+                    </div>
+                  </div>
+
+                  <footer class="quickview-footer">
+                  </footer>
+                </div>
+
+
+
+                <br>
+                <h4 class="title is-4">Machine Learning Control</h4>
+                You can customise the weights associated with each attribute.<br><br>
+                <div class = columns>
+                  <div class = column>
+
+                    <form action="{{url_for('client.weightUpdate')}}" method="POST">
+
+                      <input name="_csrf_token" id="_csrf_token" type=hidden value="{{ csrf_token() }}">
+
+                          <label class="label">(1) Education</label>
+                          <div class="field has-addons">
+
+                              <div class="control is-expanded">
+                                <input class="input" id="educationWeight" name="weight" type="text" min="0" max="100" placeholder="Education Weight" value={{weights[0]}} readonly="readonly">
+                              </div>
+                              <div class="control">
+                                <button class="button is-primary increment" type="button">+</button>
+                              </div>
+                              <div class="control">
+                                <button class="button is-danger decrement" type="button">-</button>
+                              </div>
+                            </div>
+
+                          <label class="label">(2) Skills</label>
+                          <div class="field has-addons">
+
+                              <div class="control is-expanded">
+                                <input class="input" id="skillWeight" type="text" name="weight" placeholder="Skills Weight" readonly="readonly" value={{weights[1]}} >
+                              </div>
+                              <div class="control">
+                                <button class="button is-primary increment" type="button">+</button>
+                              </div>
+                              <div class="control">
+                                <button class="button is-danger decrement" type="button">-</button>
+                              </div>
+                            </div>
+
+                          <label class="label">(3) Experience</label>
+                          <div class="field has-addons">
+
+                              <div class="control is-expanded">
+                                <input class="input" id="experienceWeight" type="text" name="weight" placeholder="Experience Weight" readonly="readonly" value={{weights[2]}} >
+                              </div>
+                              <div class="control">
+                                <button class="button is-primary increment" type="button">+</button>
+                              </div>
+                              <div class="control">
+                                <button class="button is-danger decrement" type="button">-</button>
+                              </div>
+                            </div>
+
+
+
+                        </div>
+
+                        <div class = column>
+
+                          <label class="label">(4) A-Levels</label>
+                          <div class="field has-addons">
+
+                              <div class="control is-expanded">
+                                <input class="input" id="aLevelsWeight" type="text" name="weight" placeholder="A-Levels Weight" readonly="readonly" value={{weights[3]}} >
+                              </div>
+                              <div class="control">
+                                <button class="button is-primary increment" type="button">+</button>
+                              </div>
+                              <div class="control">
+                                <button class="button is-danger decrement" type="button">-</button>
+                              </div>
+                            </div>
+
+                          <label class="label">(5) University</label>
+                          <div class="field has-addons">
+
+                              <div class="control is-expanded">
+                                <input class="input" id="universityWeight" type="text" name="weight" placeholder="University Weight" readonly="readonly" value={{weights[4]}} >
+                              </div>
+                              <div class="control">
+                                <button class="button is-primary increment" type="button">+</button>
+                              </div>
+                              <div class="control">
+                                <button class="button is-danger decrement" type="button">-</button>
+                              </div>
+                            </div>
+
+                          <label class="label">(6) Languages</label>
+                          <div class="field has-addons">
+
+                              <div class="control is-expanded">
+                                <input class="input" id="languagesWeight" type="text" name="weight" placeholder="Languages Weight" readonly="readonly" value={{weights[5]}} >
+                              </div>
+                              <div class="control">
+                                <button class="button is-primary increment" type="button">+</button>
+                              </div>
+                              <div class="control">
+                                <button class="button is-danger decrement" type="button">-</button>
+                              </div>
+                            </div>
+
+                          <label class="label">(7) Skill Set</label>
+                          <div class="field has-addons">
+
+                              <div class="control is-expanded">
+                                <input class="input" id="skillSetWeight" type="text" name="weight" placeholder="Skill Set Weight" readonly="readonly" value={{weights[6]}} >
+                              </div>
+                              <div class="control">
+                                <button class="button is-primary increment" type="button">+</button>
+                              </div>
+                              <div class="control">
+                                <button class="button is-danger decrement" type="button">-</button>
+                              </div>
+                            </div>
+
+
+                        <button class="button is-link" type="submit" id="updateWeights">Update Weights</button>
+
+                      </form>
+                  </div>
+                </div>
+
+                <div class="is-hidden-touch"><img id="flowDiagram" src="../static/MachineLearningFLowDesktop.jpg"></div>
+                <div class="is-hidden-desktop"><img id="flowDiagram" src="../static/FlowChartMobile.jpg"></div>
+
+
+            </main>
+
+          </div>
+
+      </section>
+    </div>
+
+
+    </div>
+  </section
+  </body>
+</html>

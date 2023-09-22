@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
+    <link rel="icon" href="../static/cieve.ico">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link rel="stylesheet" href="../../static/main.css" />
+    <link rel="stylesheet" href="../../static/css/bulma-steps.min.css">
+    <script type="text/javascript" src="../../static/js/bulma-steps.min.js"></script>
+    <script async type="text/javascript" src="../static/js/bulma.js"></script>
+    <style media=>
+    .fa-check-circle {
+color: green;
+}
+    </style>
+  </head>
+  <body>
+
+    <nav class="navbar has-shadow">
+      <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/apl">
+                <img src="../../static/CieveNavBar.png" alt="Cieve: an automated applicant solution">
+            </a>
+            <div class="navbar-burger burger" data-target="navMenuColorprimary-example">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <div id="navMenuColorprimary-example" class="navbar-menu">
+
+            <div class="navbar-start">
+              <a class="navbar-item" href="/apl">
+                <strong>Home</strong>
+              </a>
+
+              <a class="navbar-item" href="/privacy">
+                Privacy
+              </a>
+            </div>
+
+            <div class="navbar-end">
+
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link" href="#">
+                      {{name()}}
+                    </a>
+                    <div class="navbar-dropdown">
+
+                        <a class="navbar-item is-leveled " href="/logout">
+                            <span class="icon ">
+                                    <i class="fa fa-sign-out-alt"></i>
+                                </span>
+                            Sign Out
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </nav>
+
+
+      <div class="container">
+      <section class="section">
+
+        <div class="columns ">
+            <div class="column is-4-tablet is-3-desktop is-2-widescreen">
+
+                <aside class="menu ">
+                    <p class="menu-label ">
+                        General
+                    </p>
+                    <ul class="menu-list">
+                        <li>
+                            <a href="/apl"><span class="icon ">
+                                    <i class="fa fa-tachometer-alt"></i>
+                                </span>Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="/apl/newapplication"><span class="icon ">
+                                    <i class="fas fa-user-md"></i>
+                                </span>Apply Now</a>
+                        </li>
+                        <li>
+                            <a href="/apl/jobsearch">
+                                <span class="icon">
+                                    <i class="fa fa-search"></i>
+                                </span>
+                                Job Search
+                            </a>
+                        </li>
+                        <li>
+                            <a class="is-active" href="">
+                                <span class="icon">
+                                    <i class="fa fa-book"></i>
+                                </span>
+                                Applications
+                            </a>
+                        </li>
+                    </ul>
+
+                </aside>
+
+            </div>
+            <div class="column">
+              <form id="revform" action="/apl/applications" method="POST">
+                <input name="_csrf_token" id="_csrf_token" type=hidden value="{{ csrf_token() }}">
+                <input name="applications" value="{{applications}}" type="hidden">
+            <h3 class="title is-3">Your Applications</h3>
+            <p>You can <a href="#applications">view all of your applications</a> on this page</p>
+            <br><br>
+            {%if applications|length == 0 %}
+            <p>You have no applications, click below to start an application.</p>
+            <div class="box has-text-centered is-shadowless">
+
+                <a class="button is-link is-medium" href="/apl/newapplication">
+                    Apply now
+                </a>
+            </div>
+            {%else%}
+
+            {%for application in applications%}
+            <div class="box">
+              <h3 class="title is-4">{{application['vacancy title']}}</h3>
+              <p>{{application['vacancy description']}}</p><br>
+              <div class="steps" id="stagessteps">
+              {% for i in range(application["stages"]|length) %}
+              {% if application['current step'] == i %}
+                <div class="step-item is-active is-success">
+
+                  <div class="step-marker">{{i+1}}</div>
+                  <div class="step-details">
+                    <p class="step-title">{{application["stagesDetail"][i]}}</p>
+                  </div>
+                </div>
+                {% elif application['current step'] > i %}
+                  <div class="step-item is-completed">
+
+                    <div class="step-marker">{{i+1}}</div>
+                    <div class="step-details">
+                      <p class="step-title">{{application["stagesDetail"][i]}}</p>
+                    </div>
+                  </div>
+              {%else%}
+              <div class="step-item">
+                <div class="step-marker">{{i+1}}</div>
+                <div class="step-details">
+                  <p class="step-title">{{application["stagesDetail"][i]}}</p>
+                </div>
+              </div>
+              {%endif%}
+              {%endfor%}
+                </div>
+              <span class="tag"><b>Division:&nbsp</b> {{application['division']}}</span>
+              <span class="tag"><b>Location:&nbsp</b> {{application['location']}} &nbsp<i class="fas fa-map-marker-alt"> </i></span>
+              <span class="tag"><b>Role:&nbsp</b> {{application['role type']}} &nbsp<i class="fas fa-users"></i></span>
+              <span class="icon is-pulled-right">
+                <form></form>
+                {% if application['completed'] == True%}
+
+                <i class="far fa-check-circle fa-3x" ></i>
+                  </span>
+                {%else%}
+                  {% if application["stagesType"][application["current step"]] == "Test" %}
+
+                    <form action="/apl/testing" method="POST">
+                      <input type="hidden" name="applicantId" value="{{application["applicant id"]}}">
+                      <input type="hidden" name="vacancyId" value="{{application["vacancy id"]}}">
+                      <input type="hidden" name="currentStep" value="{{application["current step"]}}">
+                      <input type="hidden" name="stageId" value="{{application["stages"][application["current step"]]}}">
+                      <input name=_csrf_token id="_csrf_token" type=hidden value="{{ csrf_token() }}">
+                      <button type="submit" class="button is-link is-small" style="right:26px">Complete stage</button>
+                    </form>
+
+                  {% elif application["stagesType"][application["current step"]] == "Interview" %}
+
+                  <form action="/apl/booking" method="POST">
+                    <input type="hidden" name="applicantId" value="{{application["applicant id"]}}">
+                    <input type="hidden" name="vacancyId" value="{{application["vacancy id"]}}">
+                    <input type="hidden" name="currentStep" value="{{application["current step"]}}">
+                    <input type="hidden" name="stageId" value="{{application["stages"][application["current step"]]}}">
+                    <input name=_csrf_token id="_csrf_token" type=hidden value="{{ csrf_token() }}">
+                    <button type="submit" class="button is-link is-small" style="right:26px">Complete stage</button>
+                  </form>
+
+                  {%else%}
+                  <a class="button is-small" style="right: 54px">
+                      Waiting for Confirmation...
+                  </a>
+                  {%endif%}
+
+                {% endif%}
+
+            </div><br>
+            {%endfor%}
+            {%endif%}
+            </div>
+
+      </section>
+    </div>
+
+
+    </div>
+  </section
+  </body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Review Job</title>
+    <link rel="icon" href="../static/cieve.ico">
+		<link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.0/css/bulma.min.css">
+		<script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+    <script src="../../static/js/jquery-3.3.1.min.js"></script>
+		<script async type="text/javascript" src="../static/js/bulma.js"></script>
+	</head>
+	<body>
+    <nav class="navbar has-shadow">
+      <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/cli">
+                <img src="../../static/CieveNavBar.png" alt="Cieve: an automated applicant solution">
+            </a>
+            <div class="navbar-burger burger" data-target="navMenuColorprimary-example">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <div id="navMenuColorprimary-example" class="navbar-menu">
+
+            <div class="navbar-start">
+              <a class="navbar-item" href="/cli">
+                <strong>Home</strong>
+              </a>
+
+              <a class="navbar-item" href="/privacy">
+                Privacy
+              </a>
+            </div>
+
+						<div class="navbar-end">
+
+                        <a class="navbar-item is-leveled " href="/logout">
+                            <span class="icon ">
+                                    <i class="fa fa-sign-out-alt"></i>
+                                </span>
+                            Sign Out
+                        </a>
+
+            </div>
+        </div>
+        </div>
+    </nav>
+
+      <div class="container">
+      <section class="section">
+
+        <div class="columns ">
+            <div class="column is-4-tablet is-3-desktop is-2-widescreen">
+
+                <aside class="menu ">
+                    <p class="menu-label ">
+                        General
+                    </p>
+                    <ul class="menu-list">
+                        <li>
+                            <a href="/cli"><span class="icon ">
+                                    <i class="fa fa-tachometer-alt"></i>
+                                </span>Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="/cli/jobs">
+                                <span class="icon">
+                                    <i class="fa fa-search"></i>
+                                </span>
+                                Your Jobs
+                            </a>
+                        </li>
+                        <li>
+                            <a class="is-active" href="">
+                                <span class="icon">
+                                    <i class="fa fa-plus"></i>
+                                </span>
+                                New Job
+                            </a>
+                        </li>
+                    </ul>
+                </aside>
+
+            </div>
+            <div class="column ">
+			<h1 class='title is-1'>Review your answers</h1>
+      <form id="revform" action="/cli/newJobSummary" method="POST">
+        <input name="_csrf_token" id="_csrf_token" type=hidden value="{{ csrf_token() }}">
+        <input name="json" value="{{json}}" type="hidden">
+        <input name="interviews" value="{{interviews}}" type = "hidden">
+
+        <h1 class="title is-5">Title</h1>
+        <p>{{json['vacancy title']}}</p><br>
+        <h3 class="title is-5">Division</h3>
+        <p>{{json['division']}}</p><br>
+        <h3 class="title is-5">Role</h3>
+        <p>{{json['role type']}}</p><br>
+        <h3 class="title is-5">Country<h3>
+        <p>{{json['location']}}</p><br>
+        <h3 class="title is-5">Number of Vacancies</h3>
+        <p>{{json['positions available']}}</p><br>
+        <h3 class="title is-5">Start Date</h3>
+        <p>{{json['start date']}}</p><br>
+        <h3 class="title is-5">Minimum Required Degree</h3>
+        <p>{{json['min degree level']}}</p><br>
+        <h3 class="title is-5">Perfered Degrees</h3>
+        <p>{{json['prefered degrees']}}</p><br>
+        <h3 class="title is-5">Languages<h3>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Language</th>
+                  <th>Proficiency</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                {% for lang, val in json['languages'].items() %}
+                <tr>
+                  <td>{{lang}}</td>
+                  <td>{{val}}</td>
+                </tr>
+
+                {%endfor%}
+              </tbody>
+            </table><br>
+        <h3 class="title is-5">Skills<h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Skill</th>
+              <th>Proficiency</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            {% for skill, val in json['skills'].items() %}
+            <tr>
+              <td>{{skill}}</td>
+              <td>{{val}}</td>
+            </tr>
+
+            {%endfor%}
+          </tbody>
+        </table><br>
+
+      {% for i in range(json["stagesDetail"]|length) %}
+        {% if i == 0 %}
+          <h3 style="color:green;" class="title is-5">Stage 1 (Onboarding Stage)</h3>
+          <h2>&#9; &#8226; Initial Onbaording Stage (All Applicants Start Here)</h2><br>
+        {% elif ((i+1)|string) in interviews.keys() %}
+          {% set key = (i+1) %}
+          {% set stage = interviews[(i+1)|string] %}
+          <h3 style="color:red;" class="title is-5">Stage {{key}} ({{stage[0]}}) </h3>
+          <table class="table is-fullwidth" id="dynamic_field_interview">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>---</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="stageid">  <input class="input" type="date" name="Date[]{{i+1}}" placeholder="Enter the Interview date"> </td>
+                <td>  <input class="input" type="time" name="startTime[]{{i+1}}" placeholder="Enter your start time"></td>
+                <td>  <input class="input" type="time" name="endTime[]{{i+1}}" placeholder="Enter your end time"></td>
+                <td><a class="button is-primary" id="add-interview">
+            New Date
+          </a></td>
+              </tr>
+            </tbody>
+          </table>
+
+
+        {% else %}
+          <h3 style="color:green;" class="title is-5">Stage {{i+1}} ({{json["stagesDetail"][i]}})</h3>
+          <h2>&#9; &#8226; Description of Stage</h2><br>
+        {% endif %}
+      {% endfor %}
+
+
+
+      <div class="field">
+                      <div class="control">
+                          <div class="box has-text-centered is-shadowless">
+
+                              <button class="button is-link is-medium">
+                                  Submit
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="field">
+                      <div class="control">
+                          <div class="box has-text-centered is-shadowless">
+                              <a href="/cli">
+                              <button class="button is-medium">
+                                  Cancel
+                              </button>
+                            </a>
+                          </div>
+                      </div>
+                  </div>
+      </form>
+			</div>
+      </div>
+		</section>
+	</body>
+  <script type="text/javascript">
+  $(document).ready(function() {
+      var stage_counter = 1;
+      $('body').on('click', '#add-interview', function(e) {
+        e.preventDefault();
+				var key = $(this).parent().siblings('.stageid').children().attr('value');
+          $(this).parent().parent().parent().append(`
+          <tr>
+            <td> <input class="input" type="date" name="Date[]`+(stage_counter+1)+`" placeholder="Enter the Interview date"> </td>
+            <td>  <input class="input" type="time" name="startTime[]`+(stage_counter+1)+`" placeholder="Enter your start time"></td>
+            <td>  <input class="input" type="time" name="endTime[]`+(stage_counter+1)+`" placeholder="Enter your end time"></td>
+            <td><a class="button is-secondary" id="delete-interview">
+         Remove
+      </a></td>
+          </tr>
+          `)
+          stage_counter++;
+
+      });
+
+      $('body').on('click', '#delete-interview', function(e) {
+
+          $(this).parent().parent().remove();
+          stage_counter--;
+
+      });
+
+      });
+</script>
+</html>
